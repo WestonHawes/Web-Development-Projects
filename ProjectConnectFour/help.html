@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Help</title>
+    <link rel="icon" type="image/x-icon" href = "stylesheets\Fresno_State_Images\Bulldog_Paw_Favcon.ico">
+    <link rel="stylesheet" href="stylesheets/index.css">
+
+</head>
+<body onload='login_check()'>
+    <script>
+    function login_check(){
+        var xhttpphp1 = new XMLHttpRequest();
+        xhttpphp1.onload = function(){
+        console.log(this.responseText);
+        let myObj = JSON.parse(this.responseText);
+
+		if (JSON.parse(this.responseText)=='You must be logged in to see your own stats.'){
+			document.getElementById('login_link').removeAttribute('hidden');
+			document.getElementById('logout_link').setAttribute('hidden', 'true');
+		}
+		else{
+			document.getElementById('logout_link').removeAttribute('hidden');
+			document.getElementById('login_link').setAttribute('hidden', 'true');
+		}
+        }
+        xhttpphp1.open("GET","php/session.php?",true);
+        xhttpphp1.send();
+    }
+    </script>
+    <h1>Help</h1>
+    <section class = "Link_Section">
+		<h3>
+			Game Description
+		</h3>
+		<p>
+            Objective of Connect 4: Become the first player to
+            connect four of the same colored circles in sequence 
+            (vertically, horizontally, or diagonally).<br>
+                How to Play: Click on a white circle on the board,
+                The circle will drop to the lowest point of which three
+                is not another colored circle resting. Player one and player two
+                will alternate turns each clicking an open circle to drow their colored circle.
+                Only one drop is permitted per turn and it can be dropped into
+                any of the columns. Once a player has connected 4 in a sequence,
+                they have won the game. Tne game can also end in a stalemate if the board becomes full of pieces and
+                no more discs can fit in the gameboard. There is a special button called "SUPER POWER",
+                this will reverse the order of all disks according to row. This must be done prior to 
+                placing a colored disk in a slot. This button can only be pressed once-per-game
+                per player. Most of all, have fun, good luck.
+		</p>
+		</section>  
+    <section class = "Link_Section">
+		<h3>
+			Menu
+		</h3>
+		<p>
+			<p id = "login_link" class="links">
+				<a href= "login.html" alt = "Login_Web_Page">
+					Login/Signup
+				</a>
+			</p>
+			<p id = "logout_link" class="links" hidden>
+				<a href= "php/logout_mysql.php" alt = "Logout_Web_Page">
+					Logout
+				</a>
+			</p>
+			<p class="links">
+				<a href= "index.html" alt = "Main_Page_Web_Page">
+					Main Page
+				</a>
+			</p>
+			<p class="links">
+				<a href= "game.html" alt = "Game_Web_Page">
+					Game
+				</a>
+			</p>
+		</p>
+		</section>   
+</body>
+</html>

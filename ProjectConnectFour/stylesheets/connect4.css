@@ -1,0 +1,143 @@
+body {
+	font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    background-color: #13284c;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 50.0% 175.0%;
+	background-position: 50% 87.5%;
+	/*background-size:20% 20%;*/
+
+	margin-left: auto;
+	margin-right: auto;
+}
+h1, h2{
+	display: table;
+	color: #ffffff;
+	background-color: #b1102b;
+	font-size: 36px;
+	min-width: 650px;
+	width: 650px; 
+	margin:auto;
+
+	text-align: center;
+
+}
+
+#timer_p,button{
+    background-color: #ffffff;
+    /*text-align: center;*/
+    color: black;
+    /*margin:auto;*/
+    margin:auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-size: 26px;
+}
+
+#timer_p{
+    width: 100px;
+    margin:auto;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+h2{
+	font-size: 22px;
+    margin-top: 10px;
+}
+h3 {
+	background-color:  #b1102b;
+	/*text-align: center;*/
+	color: #FFFFFF;
+	/*margin:auto;*/
+
+		padding-bottom:0px;
+		margin-bottom:10px;
+
+font-size: 26px;
+
+/*width:max-content;*/
+}
+.options,.info{
+    font-size: 18px;
+    font-weight: bold;
+}
+.Link_Section{
+    height: 20%;
+    margin: auto;
+    width: 650px;
+    min-width: 650px; 
+    background-color: #ffffff;
+	text-align: center;
+    padding-bottom: 10px;
+
+}
+.links{
+    font-size: 20px;
+}
+.links a:hover, button:hover {
+	background-color: #ced1d4;
+}
+table {
+
+margin-left: auto;
+margin-right: auto;
+}
+#board {
+    height: 540px;
+    width: 630px;
+    background-color: #13284c;
+    border: 10px solid #b1102b;
+    
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0px;
+
+}
+#superpower_1_msg,#superpower_2_msg,#start_msg{
+
+    /*text-align: center;*/
+    color: #b1102b;
+    /*margin:auto;*/
+    font-weight:bold;
+    font-size: 22px;
+}
+table{
+    margin:auto;
+}
+.tile {
+    height: 70px;
+    width: 70px;
+    margin: 5px;
+
+    /* Circle */
+    background-color: white;
+    border-radius: 50%;
+    border: 5px solid #b1102b;
+}
+
+.red-piece {
+    background-color: #b1102b;
+}
+
+.yellow-piece {
+    background-color: Yellow;
+}
+.grey-piece {
+    background-color: Grey;
+}
+
+.green-piece {
+    background-color: Green;
+}
+.black-piece {
+    background-color: Black;
+}
+
+.orange-piece {
+    background-color: Orange;
+}
+.white-piece {
+    background-color: White;
+}

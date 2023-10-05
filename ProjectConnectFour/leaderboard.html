@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Leaderboard</title>
+    <link rel="icon" type="image/x-icon" href = "stylesheets\Fresno_State_Images\Bulldog_Paw_Favcon.ico">
+    <link rel="stylesheet" href="stylesheets/index.css">
+</head>
+<body onload="sort_table('won_games','asc')">
+<script>
+    	var i_prev = 1;
+		var i = 1;
+		var maxObjSize=0;
+		var myObj;
+		var by= 'won_games';
+        var order ='asc';
+
+
+		function loadJsonDoc(){
+            //best players
+            var xhttpphp1 = new XMLHttpRequest();
+            xhttpphp1.onload = function(){
+            console.log(this.responseText);
+            let myObj = JSON.parse(this.responseText);
+                    document.getElementById('best_player1').textContent = "1. " + myObj[0].login;
+                    document.getElementById('best_player2').textContent = "2. " + myObj[1].login;
+                    document.getElementById('best_player3').textContent = "3. " + myObj[2].login;
+            }
+            xhttpphp1.open("GET","php/session.php?best_players",true);
+            xhttpphp1.send();
+            //total games played
+            var xhttpphp1 = new XMLHttpRequest();
+            xhttpphp1.onload = function(){
+            console.log(this.responseText);
+            let myObj = JSON.parse(this.responseText);
+
+                if (JSON.parse(this.responseText)=='You must be logged in to see your own stats.'){
+                    document.getElementById('total_games_played').textContent = JSON.parse(this.responseText);
+
+                    document.getElementById('login_link').removeAttribute('hidden');
+                    document.getElementById('logout_link').setAttribute('hidden', 'true');
+                }
+                else{
+                    document.getElementById('logout_link').removeAttribute('hidden');
+			        document.getElementById('login_link').setAttribute('hidden', 'true');
+                    document.getElementById('total_games_played').textContent = myObj[0].games_played;
+                }
+            }
+            xhttpphp1.open("GET","php/session.php?",true);
+            xhttpphp1.send();
+        
+            let p = 0;
+                    Array.prototype.slice.call(document.getElementsByTagName('tr')).forEach(
+                        function(item) {
+
+                            if (p > 0){
+                            item.remove();
+                            }
+                            p++;
+                            // or item.parentNode.removeChild(item); for older browsers (Edge-)
+                        });
+
+
+				//loading in php
+				var xhttpphp = new XMLHttpRequest();
+				xhttpphp.onload = function(){
+					console.log(this.responseText);
+						console.log(myObj);              
+                        myObj = JSON.parse(this.responseText);
+                        let Table_Row = document.createElement("tr");
+                        let Table_Cell = document.createElement("td");
+
+                        //loop to create x by y textboxes for Matrix A
+                        for (let i = 0; i < Object.keys(myObj).length; i++){
+                            //set rows
+                            Table_Row = document.createElement("tr");
+
+                            for(let j = 0; j < 1; j++){
+                                //set cells
+                                Table_Cell = document.createElement("td");
+                                Table_Cell.textContent = myObj[i].login; 
+                                Table_Row.appendChild(Table_Cell);
+                                Table_Cell = document.createElement("td");
+                                if (myObj[i].won_games==null){
+                                    Table_Cell.textContent = 0;
+                                }
+                                else{
+                                    Table_Cell.textContent = myObj[i].won_games;
+                                } 
+                                Table_Row.appendChild(Table_Cell);
+                                Table_Cell = document.createElement("td");
+                                if(myObj[i].time_played==null){
+                                    Table_Cell.textContent=0;
+                                }
+                                else{
+                                    Table_Cell.textContent = myObj[i].time_played;
+                                }
+                                Table_Row.appendChild(Table_Cell);
+                                Table_Cell = document.createElement("td");
+                                if(myObj[i].games_played==null){
+                                    Table_Cell.textContent=0;
+                                }
+                                else{
+                                    Table_Cell.textContent = myObj[i].games_played; 
+                                }
+                                Table_Row.appendChild(Table_Cell);
+                            }
+                            document.getElementById('leaderboard_table_body').appendChild(Table_Row);
+                        }
+					
+				}
+				xhttpphp.open("GET","php/GetData.php?by="+by+"&order="+order,true);
+				xhttpphp.send();
+
+
+
+		}
+
+        function sort_table(b, o){
+            by = b; 
+            order = o; 
+            loadJsonDoc();
+        }
+</script>
+    <h1>Leaderboards</h1>
+    <section class = "Link_Section">
+		<h3>
+			Total Games Played
+		</h3>
+		<div id = 'total_games_played'>
+
+        </div>
+		</section> 
+        <section class = "Link_Section">
+            <h3>
+                Best Players - Most Wins
+            </h3>
+            <div id = 'best_player1'>
+ 
+            </div>
+            <div id = 'best_player2'>
+ 
+            </div>
+            <div id = 'best_player3'>
+ 
+            </div>
+            </section> 
+    <section class = "Link_Section">
+        <table id= "leaderboard_table"> 
+            <thead>
+                    <h3>
+                        Leaderboard Table
+                    </h3>
+            </thead>
+            <tbody id = "leaderboard_table_body">
+                <tr>
+                    <th>
+                            Username
+
+                                    <form>
+                                        <button type="button" value="ASC" onclick="sort_table('login','asc')">ASC</button>
+                                    </form>
+
+                                    <form>
+                                        <button type="button" value="DEC" onclick="sort_table('login','desc')">DEC</button>
+                                    </form>
+
+                    </th>
+                    <th>
+                            Games<br>Won
+
+                                        <form>
+                                            <button type="button" value="ASC" onclick="sort_table('won_games','asc')">ASC</button>
+                                        </form>
+
+                                        <form>
+                                            <button type="button" value="DEC" onclick="sort_table('won_games','desc')">DEC</button>
+                                        </form>
+
+                    </th>
+                    <th>
+                            Time<br>Played<br>(Minutes)
+
+                                        <form>
+                                            <button type="button" value="ASC" onclick="sort_table('time_played','asc')">ASC</button>
+                                        </form>
+
+                                        <form>
+                                            <button type="button" value="DEC" onclick="sort_table('time_played','desc')">DEC</button>
+                                        </form>
+
+                    </th>
+                    <th>
+                            Games<br>Played
+
+                                        <form>
+                                            <button type="button" value="ASC" onclick="sort_table('games_played','asc')">ASC</button>
+                                        </form>
+
+                                        <form>
+                                            <button type="button" value="DEC" onclick="sort_table('games_played','desc')">DEC</button>
+                                        </form>
+
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class = "Link_Section">
+		<h3>
+			Menu
+		</h3>
+		<p>
+			<p id = "login_link" class="links">
+				<a href= "login.html" alt = "Login_Web_Page">
+					Login/Signup
+				</a>
+			</p>
+			<p id = "logout_link" class="links" hidden>
+				<a href= "php/logout_mysql.php" alt = "Logout_Web_Page">
+					Logout
+				</a>
+			</p>
+			<p class="links">
+				<a href= "index.html" alt = "Main_Page_Web_Page">
+					Main Page
+				</a>
+			</p>
+			<p class="links">
+				<a href= "game.html" alt = "Game_Web_Page">
+					Game
+				</a>
+			</p>
+		</p>
+		</section> 
+</body>
+</html>

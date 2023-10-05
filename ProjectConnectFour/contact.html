@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Contact</title>
+    <link rel="icon" type="image/x-icon" href = "stylesheets\Fresno_State_Images\Bulldog_Paw_Favcon.ico">
+    <link rel="stylesheet" href="stylesheets/index.css">
+
+</head>
+<body onload='login_check()'>
+    <script>
+    function login_check(){
+        var xhttpphp1 = new XMLHttpRequest();
+        xhttpphp1.onload = function(){
+        console.log(this.responseText);
+        let myObj = JSON.parse(this.responseText);
+		if (JSON.parse(this.responseText)=='You must be logged in to see your own stats.'){
+			document.getElementById('login_link').removeAttribute('hidden');
+			document.getElementById('logout_link').setAttribute('hidden', 'true');
+		}
+		else{
+			document.getElementById('logout_link').removeAttribute('hidden');
+			document.getElementById('login_link').setAttribute('hidden', 'true');
+		}
+        }
+        xhttpphp1.open("GET","php/session.php?",true);
+        xhttpphp1.send();
+    }
+    </script>
+    <h1>Contact</h1>
+    <section class = "Link_Section">
+		<h3>
+			About the Author
+		</h3>
+		<p>
+            The author of this game and these web pages is<b> Weston Hawes</b>, a Fresno State student.<br>
+            Email:<b>whawes396@mail.fresnostate.edu</b> 
+		</p>
+		</section> 
+    <section class = "Link_Section">
+		<h3>
+			Menu
+		</h3>
+		<p>
+			<p id = "login_link" class="links">
+				<a href= "login.html" alt = "Login_Web_Page">
+					Login/Signup
+				</a>
+			</p>
+			<p id = "logout_link" class="links" hidden>
+				<a href= "php/logout_mysql.php" alt = "Logout_Web_Page">
+					Logout
+				</a>
+			</p>
+			<p class="links">
+				<a href= "index.html" alt = "Main_Page_Web_Page">
+					Main Page
+				</a>
+			</p>
+			<p class="links">
+				<a href= "game.html" alt = "Game_Web_Page">
+					Game
+				</a>
+			</p>
+		</p>
+		</section>   
+</body>
+</html>

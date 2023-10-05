@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Main Page</title>
+	<link rel="icon" type="image/x-icon" href = "stylesheets\Fresno_State_Images\Bulldog_Paw_Favcon.ico">
+    <link rel = "stylesheet" href ="stylesheets/index.css">
+
+</head>
+<body onload='login_check()'>
+    <script>
+    function login_check(){
+        var xhttpphp1 = new XMLHttpRequest();
+        xhttpphp1.onload = function(){
+        console.log(this.responseText);
+        let myObj = JSON.parse(this.responseText);
+
+            if (JSON.parse(this.responseText)=='You must be logged in to see your own stats.'){
+                document.getElementById('logout_link').setAttribute('hidden', 'true');
+            }
+            else{
+                document.getElementById('logout_link').removeAttribute('hidden');
+            }
+        }
+        xhttpphp1.open("GET","php/session.php?",true);
+        xhttpphp1.send();
+    }
+
+        function spa_post(){
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+            
+            arr = {username:user, password:pass};
+            document.getElementById("username_err").textContent='';
+                document.getElementById("password_err").textContent='';
+            //arr = '{\'username\':\''+username+'\'},{password:\''+password+'\'}';
+            
+            //Create an XMLHttpRequest object
+            var xhttp = new XMLHttpRequest();
+            console.log(JSON.stringify(arr));
+            //Define a callback function (used for async)
+            xhttp.onload=function(){
+                //process data
+                console.log(this.responseText);
+                //console.log(JSON.parse(this.responseText));
+
+                let err = this.responseText;
+                        err = err.replace("\"\"", "*");
+                        err = err.replace("\"", "");
+                        err = err.replace("\"", "");
+                        myArray = err.split("*");
+                        console.log(myArray);
+                        myArray.forEach(element => {
+                            if(element.includes('Please enter username.')||element.includes('No account found with that username.')){
+                                document.getElementById('username_err').innerHTML =element;
+                            }
+                            else if(element.includes('Please enter your password.')||element.includes('The password you entered was not valid.')){
+                                document.getElementById('password_err').innerHTML = element;
+                            }
+                            else if(element.includes('Please confirm password.')||element.includes('Password did not match.')){
+                                document.getElementById('confirm_password_err').innerHTML = element;
+                            }
+                            else{
+                                document.getElementById('username_err').innerHTML =element;
+                                document.getElementById('logout_link').removeAttribute('hidden');
+                            }
+                        });
+
+            }
+            // open object
+            xhttp.open("POST","php/login_mysql.php", true);
+            //send request
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("username="+user+"&password="+pass,true);
+        }
+    </script>
+    <h1>Login Page</h1>
+    <section class = "Link_Section">
+		<h3>
+			Please fill in your credentials to login.
+		</h3>
+        <form>
+            <div>
+                <label>Username:<sup>*</sup></label>
+                <input id = "username" type="text" name="username" value="">
+                <p id = "username_err"></p>
+            </div>    
+            <div>
+                <label>Password:<sup>*</sup></label>
+                <input id = "password" type="password" name="password">
+                <p id = "password_err"></p>
+            </div>
+            <div>
+                <button onclick= "spa_post()" type="button" value="Submit">Submit</button>
+            </div>
+            <p>Don't have an account? <a href="signup.html">Sign up now</a>.</p>
+        </form>
+    </section>
+    <section class = "Link_Section">
+		<h3>
+			Menu
+		</h3>
+		<p>
+			<p class="links">
+				<a href= "index.html" alt = "Main_Page_Web_Page">
+					Main Page
+				</a>
+			</p>
+			<p class="links">
+				<a href= "game.html" alt = "Game_Web_Page">
+					Game
+				</a>
+			</p>
+			<p id = "logout_link" class="links" hidden>
+				<a href= "php/logout_mysql.php" alt = "Logout_Web_Page">
+					Logout
+				</a>
+			</p>
+		</p>
+		</section>    
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Main Page</title>
+	<link rel="icon" type="image/x-icon" href = "stylesheets\Fresno_State_Images\Bulldog_Paw_Favcon.ico">
+    <link rel = "stylesheet" href ="stylesheets/index.css">
+	<script>
+		function login_check(){
+
+
+			var xhttpphp1 = new XMLHttpRequest();
+			xhttpphp1.onload = function(){
+			console.log(this.responseText);
+			let myObj = JSON.parse(this.responseText);
+
+				if (JSON.parse(this.responseText)=='You must be logged in to see your own stats.'){
+					document.getElementById('login_link').removeAttribute('hidden');
+					document.getElementById('logout_link').setAttribute('hidden', 'true');
+				}
+				else{
+					document.getElementById('logout_link').removeAttribute('hidden');
+					document.getElementById('login_link').setAttribute('hidden', 'true');
+				}
+			}
+			xhttpphp1.open("GET","php/session.php?",true);
+			xhttpphp1.send();
+		}
+	</script>
+
+</head>
+<body onload="login_check()">
+    <h1>Main Page</h1>
+    <section class = "Link_Section">
+		<h3>
+			Menu
+		</h3>
+		<p>
+			<p id = "login_link" class="links">
+				<a href= "login.html" alt = "Login_Web_Page">
+					Login/Signup
+				</a>
+			</p>
+			<p id = "logout_link" class="links" hidden>
+				<a href= "php/logout_mysql.php" alt = "Logout_Web_Page">
+					Logout
+				</a>
+			</p>
+			<p id = "game_link" class="links">
+				<a href= "game.html" alt = "Game_Web_Page">
+					Game
+				</a>
+			</p>
+			<p id = "leaderboard_link" class="links">
+				<a href= "leaderboard.html" alt = "Leaderboard_Web_Page">
+					Leaderboard
+				</a>
+			</p>
+			<p id = "help_link" class="links">
+				<a href= "help.html" alt = "Help_Web_Page">
+					Help
+				</a>
+			</p>
+            <p id = "contact_link" class="links">
+				<a href= "contact.html" alt = "Contact_Web_Page">
+					Contact
+				</a>
+			</p>
+		</p>
+		</section>
+</body>
+</html>
